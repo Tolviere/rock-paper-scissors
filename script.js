@@ -1,5 +1,5 @@
 let userScore = 0;
-let ties = 0;
+let computerScore = 0;
 
 function getComputerChoice() {
     const choices = ['Rock', 'Paper', 'Scissors'];
@@ -11,26 +11,36 @@ function playRound(playerSelection, computerSelection) {
 
     playerSelection = playerSelection.slice(0,1).toUpperCase() + playerSelection.slice(1);
 
-    if (playerSelection === 'Rock' && computerSelection === 'Scissors' || playerSelection === 'Paper' && computerSelection === 'Rock' || playerSelection === 'Scissors' && computerSelection === 'Paper') {
+    if (playerSelection === 'Rock' && computerSelection === 'Scissors' || 
+    playerSelection === 'Paper' && computerSelection === 'Rock' || 
+    playerSelection === 'Scissors' && computerSelection === 'Paper') {
+
         userScore++;
         return `You Win! ${playerSelection} beats ${computerSelection}`;
-    } else if (playerSelection === computerSelection){
-        ties++;
+
+    } 
+    else if (playerSelection === computerSelection){
+
         return "It's a tie!";
-    } else {
-        return `You Lose! ${computerSelection} beats ${playerSelection}`;  
+
+    } 
+    else {
+        computerScore++;
+        return `You Lose! ${computerSelection} beats ${playerSelection}`; 
     }
 }
 
 function game() {
-    
-    for (let i = 0; i < 5; i++) {
+
+    let numOfGames = 5;
+
+    for (let i = 0; i < numOfGames; i++) {
         let userAnswer = prompt("Enter Rock/Paper/Scissors: ");
         let computerAnswer = getComputerChoice();
         console.log(playRound(userAnswer, computerAnswer));
     }
 
-    let scoreDif = Math.abs(userScore*2-5 - ties);
+    let scoreDif = Math.abs(userScore - computerScore);
     let pointString = 'point';
     let winnerText = 'The computer beat you';
 
@@ -38,11 +48,16 @@ function game() {
         pointString += "s";
     }
 
-    if (userScore >= 3) {
+    if (userScore > computerScore) {
         winnerText = 'You beat the computer';
     }
 
-    console.log(`${winnerText} by ${scoreDif} ${pointString}!`);
+    if (scoreDif === 0) {
+        console.log("Looks like neither of you win in the end! It's a tie!");
+    }
+    else {
+        console.log(`${winnerText} by ${scoreDif} ${pointString}!`);
+    }
 }
 
 game();
