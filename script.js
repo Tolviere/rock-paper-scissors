@@ -2,6 +2,7 @@ let userScore = 0;
 let computerScore = 0;
 let userMatchScore = 0;
 let computerMatchScore = 0;
+let displayingResults = 0;
 
 function getComputerChoice() {
     const choices = ['Rock', 'Paper', 'Scissors'];
@@ -32,7 +33,7 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function game() {
+function getMatchText() {
 
     if (userScore === 5 || computerScore === 5) {
         let scoreDif = Math.abs(userScore - computerScore);
@@ -61,25 +62,24 @@ function game() {
     return '';
 }
 
-const playerChoices = document.querySelectorAll('.player-choice');
-const results = document.querySelector('.results'); 
-const playerScoreText = document.querySelector('.player-score');
-const computerScoreText = document.querySelector('.computer-score');
-const matchScoreTexts = document.querySelectorAll('.match-scores h1');
-let displayingResults = 0;
+function game() {
+    const playerChoices = document.querySelectorAll('.player-choice');
+    const results = document.querySelector('.results'); 
+    const playerScoreText = document.querySelector('.player-score');
+    const computerScoreText = document.querySelector('.computer-score');
+    const matchScoreTexts = document.querySelectorAll('.match-scores h1');
+    
+    playerChoices.forEach(choice => choice.addEventListener('click', () => {
 
-playerChoices.forEach(choice => choice.addEventListener('click', () => {
-    //results.textContent = playRound(choice.textContent, getComputerChoice());
-    console.log(userScore);
-    displayText(playRound(choice.textContent, getComputerChoice()) + game(), results, 0);
-    displayingResults++;
-
-    playerScoreText.textContent = `Player Score: ${userScore}`;
-    computerScoreText.textContent = `Computer Score: ${computerScore}`;
-    matchScoreTexts[0].textContent = `Player: ${userMatchScore}`;
-    matchScoreTexts[1].textContent = `Computer: ${computerMatchScore}`;
-    console.log(userScore);
-}));
+        displayText(playRound(choice.textContent, getComputerChoice()) + getMatchText(), results, 0);
+        displayingResults++;
+    
+        playerScoreText.textContent = `Player Score: ${userScore}`;
+        computerScoreText.textContent = `Computer Score: ${computerScore}`;
+        matchScoreTexts[0].textContent = `Player: ${userMatchScore}`;
+        matchScoreTexts[1].textContent = `Computer: ${computerMatchScore}`;
+    }));    
+}
 
 function displayText(text, element, i) {
     if (displayingResults > 1) {
@@ -94,3 +94,5 @@ function displayText(text, element, i) {
         displayingResults--;
     }
 }
+
+game();
