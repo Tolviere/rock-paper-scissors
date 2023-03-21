@@ -1,0 +1,55 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    margin: 0;
+    background-color: gray;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+.results, .player-score, .computer-score {
+    font-size: 24px;
+    text-align: center;
+    height: 25px;
+}
+
+.results {
+    height: 50px;
+}
+
+.match-scores {
+    display: flex;
+    align-self: center;
+    gap: 100px;
+}
+
+.player-choices {
+    display: flex;
+    align-self: center;
+    width: 800px;
+    gap: 25px;
+}
+button {
+    width: 150px;
+    padding: 10px 30px;
+    font-size: 16px;
+    transition: .5s;
+    flex: 1;
+    border: none;
+    border-radius: 10px;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+.expand {
+    transform: scale(1.1);
+    transition: .5s;
+}

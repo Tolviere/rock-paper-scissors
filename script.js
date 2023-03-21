@@ -1,5 +1,7 @@
 let userScore = 0;
 let computerScore = 0;
+let userMatchScore = 0;
+let computerMatchScore = 0;
 
 function getComputerChoice() {
     const choices = ['Rock', 'Paper', 'Scissors'];
@@ -16,7 +18,7 @@ function playRound(playerSelection, computerSelection) {
     playerSelection === 'Scissors' && computerSelection === 'Paper') {
 
         userScore++;
-        return `You Win! ${playerSelection} beats ${computerSelection}`;
+        return `You win the round! ${playerSelection} beats ${computerSelection}`;
 
     } 
     else if (playerSelection === computerSelection){
@@ -26,7 +28,7 @@ function playRound(playerSelection, computerSelection) {
     } 
     else {
         computerScore++;
-        return `You Lose! ${computerSelection} beats ${playerSelection}`; 
+        return `You lose the round! ${computerSelection} beats ${playerSelection}`; 
     }
 }
 
@@ -35,32 +37,60 @@ function game() {
     if (userScore === 5 || computerScore === 5) {
         let scoreDif = Math.abs(userScore - computerScore);
         let pointString = 'point';
-        let winnerText = 'You lost the match! The computer beat you';
+        let winnerText = ', and you lost the match! The computer beat you';
     
         if (scoreDif > 1) {
             pointString += "s";
         }
-    
+        
         if (userScore > computerScore) {
-            winnerText = 'You won the match! You beat the computer';
+            winnerText = ', and you won the match! You beat the computer';
+            userMatchScore++;    
+        } else {
+            computerMatchScore++;
         }
-
-        results.textContent = `${winnerText} by ${scoreDif} ${pointString}!`;
 
         userScore = 0;
         computerScore = 0;
+
+        console.log('gaming?');
+
+        return `${winnerText} by ${scoreDif} ${pointString}!`;
     }
+
+    return '';
 }
 
 const playerChoices = document.querySelectorAll('.player-choice');
-const results = document.querySelector('div'); 
+const results = document.querySelector('.results'); 
 const playerScoreText = document.querySelector('.player-score');
 const computerScoreText = document.querySelector('.computer-score');
-
+const matchScoreTexts = document.querySelectorAll('.match-scores h1');
+let displayingResults = 0;
 
 playerChoices.forEach(choice => choice.addEventListener('click', () => {
-    results.textContent = playRound(choice.textContent, getComputerChoice());
+    //results.textContent = playRound(choice.textContent, getComputerChoice());
+    console.log(userScore);
+    displayText(playRound(choice.textContent, getComputerChoice()) + game(), results, 0);
+    displayingResults++;
+
     playerScoreText.textContent = `Player Score: ${userScore}`;
     computerScoreText.textContent = `Computer Score: ${computerScore}`;
-    game();
+    matchScoreTexts[0].textContent = `Player: ${userMatchScore}`;
+    matchScoreTexts[1].textContent = `Computer: ${computerMatchScore}`;
+    console.log(userScore);
 }));
+
+function displayText(text, element, i) {
+    if (displayingResults > 1) {
+        displayingResults--;
+        return;
+    }
+    if (i < text.length) {
+        let timeBetween = 10;
+        element.textContent = text.slice(0, i+1);
+        setTimeout(function(){displayText(text, element, i+1);}, timeBetween);
+    } else {
+        displayingResults--;
+    }
+}
